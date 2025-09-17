@@ -57,7 +57,9 @@ def cpp_flag(compiler):
 
     The c++14 is prefered over c++11 (when it is available).
     """
-    if has_flag(compiler, '-std=c++14'):
+    if has_flag(compiler, '-std=c++17'):
+        return '-std=c++17'
+    elif has_flag(compiler, '-std=c++14'):
         return '-std=c++14'
     elif has_flag(compiler, '-std=c++11'):
         return '-std=c++11'
@@ -86,6 +88,8 @@ class BuildExt(build_ext):
                 opts.append('-fvisibility=hidden')
             opts.append('-g0')
             opts.append('-O3')
+            opts.append('-DNDEBUG')
+            opts.append('-fPIC')
         elif ct == 'msvc':
             opts.append('/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version())
         for ext in self.extensions:
